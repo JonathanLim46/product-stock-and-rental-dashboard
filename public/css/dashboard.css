@@ -1,0 +1,81 @@
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+.wrapper {
+    display: flex;
+    height: 100%;
+}
+
+#sidebar {
+    flex: 0 0 25%; /* Sidebar takes 25% width */
+    max-width: 25%;
+    min-height: 100vh; /* Full viewport height */
+    border-right: 1px solid #dee2e6;
+}
+
+.content {
+    flex-grow: 1; /* Take remaining width */
+    overflow:auto;
+}
+
+.nav{
+    position:fixed;
+    height: 100vh;
+}
+
+
+.navbar-brand p{
+    font-weight: 800px;
+}
+
+#sidebar .nav-link{
+    color: grey;
+    padding: 10px 15px;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+    background-color: #00e096;
+}
+
+
+/* .nav-item{
+    padding-top: 10%;
+    padding-left: 5%;
+} */
+
+/* .pills{
+    background-color: #00e096;
+    width: 75%;
+    height: 75%;
+} */
+
+#sidebar .nav-link p{
+    font-size:2em;
+}
+
+
+
+@media (max-width:1199.8px){
+    #sidebar .nav-link p{
+        font-size:1.5em;
+    }
+
+}
+
+@media (max-width:991.98px){
+    #sidebar .nav-link p{
+        font-size:1em;
+    }
+}
+
+.navbar-brand {
+    font-weight: bold;
+  }
+
+.navbar-nav input[type="text"] {
+    border: none;
+    border-bottom: 1px solid #ccc;
+    outline: none;
+  }
