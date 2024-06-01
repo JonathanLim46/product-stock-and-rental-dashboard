@@ -23,6 +23,7 @@ class LoginController extends Controller
             'password' => 'required',
         ]);
 
+
         if(Auth::attempt($validate)){
             $request->session()->put('admin_name',$request->username);
 
@@ -30,5 +31,15 @@ class LoginController extends Controller
         }
 
         return back()->with('loginFailed','Invalid Credentials');
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+    
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+    
+        return redirect('/');
     }
 }

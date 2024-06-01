@@ -2,14 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Rental;
+use App\Models\Products;
+use App\Models\Pelanggan;
+use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
     public function index(){
-        return view('dashboard',[
-            'title' => 'KONTOL'
+        $rental = Rental::with(['pelanggan','detil_rental'])->get();
+        $produk = Products::with('category')->get();
+        $pelanggan = Pelanggan::all();
+        return view('dashboard_view.utama',[
+            'title' => 'Dashboard',
+            'rental' => $rental,
+            'produk' => $produk,
+            'pelanggan' => $pelanggan
         ]);
     }
 

@@ -32,6 +32,6 @@ class Rental extends Model
     }
 
     public function detil_rental(): HasMany{
-        return $this->hasMany(Detil_Rental::class);
+        return $this->hasMany(Detil_Rental::class, 'rental_id', 'id');
     }
 }

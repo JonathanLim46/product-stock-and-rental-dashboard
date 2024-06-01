@@ -3,19 +3,33 @@
 @section('content')
   <!-- Content Area -->
   <main class="flex-grow-1 p-4">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-      <h4>Data Produk</h4>
-      <a href=""><button class="btn btn-success btn-block"><b>INPUT</b></button></a>
-    </div>
+    <div class="d-flex justify-content-end align-items-center mb-3"> 
+      <h4 class="me-auto">Data Produk</h4>
+      <a href="{{route('categories.form')}}" class="pe-2">
+          <button class="btn btn-success btn-block"><b>+ NEW CATEGORY</b></button>
+      </a>
+      <a href="{{ route('produk.form') }}">
+        <button class="btn btn-success btn-block"><b>+ NEW PRODUCT</b></button>
+      </a>
+  </div>
 
     {{-- success --}}
     @if(session()->has('deleteSuccess'))
       <div class="alert alert-success alert-dismissible fade show d-flex justify-content-between align-items-center" role="alert">
         <strong>{{ session('deleteSuccess') }}</strong>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
+      </div>  
     @endif
     {{-- end success --}}
+
+    {{-- produk success --}}
+        @if(session()->has('success'))
+        <div class="alert alert-success alert-dismissible fade show d-flex justify-content-between align-items-center" role="alert">
+          <strong>{{ session('success') }}</strong>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      @endif
+    {{-- end produk success --}}
 
     <div class="container rounded mt-3 p-4 shadow-lg" style="background-color: #ffffff;">
 
@@ -38,7 +52,7 @@
             <td>{{ $product->nama_produk }}</td>
             <td>{{ $product->deskripsi_produk }}</td>
             <td>{{ $product->stok_produk }}</td>
-            <td>{{ $product->harga_produk }}</td>
+            <td>Rp. {{ number_format($product->harga_produk, 0, ',', '.') }}</td>
             <td>{{ $product->category->categoryName }}</td>
             <td>
               <a href="{{route('produk.edit',['product'=>$product])}}">

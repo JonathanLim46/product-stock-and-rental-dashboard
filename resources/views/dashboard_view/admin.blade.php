@@ -5,7 +5,7 @@
   <main class="flex-grow-1 p-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
       <h4>Data Admin</h4>
-      <a href=""><button class="btn btn-success btn-block"><b>INPUT</b></button></a>
+      <a href="{{route('admin.form')}}"><button class="btn btn-success btn-block"><b>+ NEW DATA</b></button></a>
     </div>
 
     {{-- success --}}
@@ -34,7 +34,7 @@
             <td>{{ $admins->username }}</td>
             <td class="text-center">
               @if (Auth::user()->id === $admins->id) 
-                <a href="#">
+                <a href="{{ route('admin.edit',[$admins->id]) }}">
                   <button class="btn btn-warning btn-sm">Edit</button>
                 </a>
               @endif              

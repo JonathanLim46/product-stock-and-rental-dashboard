@@ -18,27 +18,46 @@ class ProductsController extends Controller
 
     public function create(Request $request){
         $request->validate([
-            'nameInput' => 'required',
-            'descriptionInput' => 'required',
-            'stokInput' => 'required',
-            'hargaInput' => 'required',
-            'categoryInput' => 'required'
+            'nama_produk' => 'required',
+            'deskripsi_produk' => 'required',
+            'stok_produk' => 'required',
+            'harga_produk' => 'required',
+            'category_id' => 'required'
         ]);
 
-        Products::create([
-            'nama_produk' => $request->nameInput,
-            'description_produk' => $request->descriptionInput,
-            'stok_produk' => $request->stokInput,
-            'harga_produk' => $request->hargaInput,
-            'category_id' => $request->categoryInput
-        ]);
+        $data = $request->nama_produk;
+        $cekData = Products::where('nama_produk',$data)->value('id');
 
-        return to_route('produk.index')->with('success', 'Produk berhasil ditambahkan');
+        if($cekData){
+            return back()->with('error',"Produk '$data' sudah ada di daftar produk");
+        }else{
+            Products::create([
+                'nama_produk' => $request->nama_produk,
+                'deskripsi_produk' => $request->deskripsi_produk,
+                'stok_produk' => $request->stok_produk,
+                'harga_produk' => $request->harga_produk,
+                'category_id' => $request->category_id
+            ]);    
+        }
+
+        return to_route('produk.index')->with('success', "Produk '$data' berhasil ditambahkan");
     }
 
+    public function form(){
+        $category = Category::all();
+        return view('input_view.inputProduk',[
+            'title' => 'Tambah Produk',
+            'categories' => $category
+        ]);
+    }
             
     public function edit(Products $product){
-        
+        $category = Category::all();
+        return view('input_view.inputProduk',[
+            'title' => 'Tambah Produk',
+            'categories' => $category,
+            'product' => $product
+        ]);
     }
 
     public function destroy(Products $product){

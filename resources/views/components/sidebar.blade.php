@@ -1,6 +1,3 @@
-
-
-
 <!-- sidebar -->
       <div id="sidebar" class="w-25 d-none d-md-block border-right bg-light">
         <ul class="nav flex-column pt-3 nav-pills ms-5">
@@ -11,7 +8,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link rounded {{ Route::currentRouteName() == 'dashboard.index' ? 'active' : '' }}" aria-current="page" href="#">
+            <a class="nav-link rounded {{ Route::currentRouteName() == 'dashboard.index' ? 'active' : '' }}" aria-current="page" href="{{route('dashboard.index')}}">
               <i class="fa-solid fa-chart-pie"></i> <span class="px-2">Dashboard</span>
             </a>
           </li>
@@ -21,8 +18,8 @@
             </a>
           </li>
           <li class="nav-item pt-4">
-            <a class="nav-link rounded {{ Route::currentRouteName() == 'sewa.index' ? 'active' : '' }}" href="#">
-              <i class="fa-solid fa-truck-ramp-box"></i> <span class="px-2">Sewa</span>
+            <a class="nav-link rounded {{ Route::currentRouteName() == 'rental.index' ? 'active' : '' }}" href="{{route('rental.index')}}">
+              <i class="fa-solid fa-truck-ramp-box"></i> <span class="px-2">Masa Sewa</span>
             </a>
           </li>
           <li class="nav-item pt-4">
@@ -36,7 +33,7 @@
             </a>
           </li>
           <li class="nav-item mt-auto mb-5">
-            <a class="nav-link rounded" href="#">
+            <a class="nav-link rounded" href="{{route('logout')}}">
               <i class="fa-solid fa-right-from-bracket"></i> <span class="px-2">Log Out</span>
             </a>
           </li>

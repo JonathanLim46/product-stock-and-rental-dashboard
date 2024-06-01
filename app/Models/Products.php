@@ -17,12 +17,8 @@ class Products extends Model
 
     protected $table = 'products';
 
-    protected $fillabel = [
-        'nama_produk',
-        'deskripsi_produk',
-        'stok_produk',
-        'harga_produk',
-        'category_id'
+    protected $fillable = [
+        'nama_produk', 'deskripsi_produk', 'stok_produk', 'harga_produk', 'category_id'
     ];
 
     public function category(): BelongsTo

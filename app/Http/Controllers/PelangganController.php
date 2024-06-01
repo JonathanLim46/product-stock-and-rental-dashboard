@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Pelanggan;
 use App\Http\Requests\StorePelangganRequest;
 use App\Http\Requests\UpdatePelangganRequest;
+use Illuminate\Http\Request;
 
 class PelangganController extends Controller
 {
@@ -29,9 +30,28 @@ class PelangganController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $request->validate([
+            'nama_pelanggan' => 'required',
+            'alamat_pelanggan' => 'required',
+            'nomor_pelanggan' => 'required'
+        ]);
+
+        $data = $request->nama_pelanggan;
+        $cekData = Pelanggan::where('nama_pelanggan',$data)->value('id');
+
+        if($cekData){
+            return back()->with('error',"Data Pelanggan '$data' sudah terdaftar");
+        }else{
+            Pelanggan::create([
+                'nama_pelanggan' => $request->nama_pelanggan,
+                'alamat_pelanggan' => $request->alamat_pelanggan,
+                'nomor_pelanggan' => $request->nomor_pelanggan
+            ]);
+        }
+
+        return to_route('pelanggan.index')->with('success', "Data Pelanggan '$data' berhasil ditambahkan");
     }
 
     /**
@@ -40,9 +60,11 @@ class PelangganController extends Controller
      * @param  \App\Http\Requests\StorePelangganRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StorePelangganRequest $request)
+    public function form()
     {
-        //
+        return view('input_view.inputPelanggan',[
+            'title' => 'Pelanggan'
+        ]);
     }
 
     /**
@@ -62,9 +84,11 @@ class PelangganController extends Controller
      * @param  \App\Models\Pelanggan  $pelanggan
      * @return \Illuminate\Http\Response
      */
-    public function edit(Pelanggan $pelanggan)
-    {
-        //
+    public function edit(Pelanggan $pelanggan){
+        return view('input_view.inputPelanggan',[
+            'title' => 'Pelanggan',
+            'pelanggan' => $pelanggan
+        ]);
     }
 
     /**
