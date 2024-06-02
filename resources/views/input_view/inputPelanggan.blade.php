@@ -20,8 +20,11 @@
 
     <div class="container rounded mt-3 p-4 shadow-lg" style="background-color: #ffffff;">
         <!-- Form Input -->
-        <form method="POST" action="{{route('pelanggan.savedata')}}">
+        <form method="POST" action="{{ isset($pelanggan) ? route('pelanggan.update',$pelanggan->id) : route('pelanggan.savedata') }}">
             @csrf
+            @if (isset($pelanggan))
+                @method('PUT')
+            @endif
             <div class="mb-3">
                 <label for="nama_pelanggan" class="form-label">Nama Pelanggan</label>
                 <input type="text" class="form-control" id="nama_pelanggan" name="nama_pelanggan" value="{{old('nama_pelanggan', $pelanggan->nama_pelanggan ?? '')}}" required>

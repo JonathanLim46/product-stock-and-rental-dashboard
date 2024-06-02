@@ -87,8 +87,8 @@ class RentalController extends Controller
         $pelanggans = Pelanggan::all();
         $categories = Category::with('products')->get();
         $product = Products::all();
-        $rentals = Rental::with('detil_rental')->get();
-
+        $rentals = null; 
+    
         return view('input_view.store', [
             'title' => 'Laporan Rental',
             'categories' => $categories,
@@ -103,7 +103,53 @@ class RentalController extends Controller
         $rentalName = $rental->pelanggan->nama_pelanggan;
 
         $rental->delete();
-        return redirect()->route('rental.index')->with('deleteSuccess', "Status Rental :  '$rentalName' Berhasil di Delete ");
+        return redirect()->route('rental.index')->with('deleteSuccess', "Status Rental :  $rentalName Berhasil di Delete ");
     }
+    
+    public function edit(Rental $rental)
+    {
+        $pelanggans = Pelanggan::all();
+        $categories = Category::with('products')->get();
+        $product = Products::all();
+        
+        return view('input_view.store', [
+            'title' => 'Edit Data Rental',
+            'rentals' => $rental,
+            'pelanggans' => $pelanggans,
+            'categories' => $categories,
+            'product' => $product,
+            'detil_rental' => Detil_Rental::where('rental_id', $rental->id)->get()
+        ]);
+    }
+    
+
+    public function update(Request $request, Rental $rental)
+    {
+        $request->validate([
+            'nama_pelanggan' => 'required',
+            'alamat_pelanggan' => 'required',
+            'nomor_pelanggan' => 'required',
+            'rental_awal' => 'required|date',
+            'rental_akhir' => 'required|date',
+            'status_rental' => 'required|boolean',
+            'product_id' => 'required',
+            'total_barang' => 'required|integer|min:1'
+        ]);
+
+        $rental->id_pelanggan = $request->nama_pelanggan;
+        $rental->rental_awal = $request->rental_awal;
+        $rental->rental_akhir = $request->rental_akhir;
+        $rental->status_rental = $request->status_rental;
+        $rental->save();
+
+
+        $detil = Detil_Rental::where('rental_id', $rental->id)->first();
+        $detil->produk_id = $request->product_id;
+        $detil->total_barang = $request->total_barang;
+        $detil->save();
+
+        return redirect()->route('rental.index')->with('success', 'Data rental berhasil diperbarui.');
+    }
+
 }
 

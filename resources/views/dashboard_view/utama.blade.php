@@ -50,7 +50,7 @@
             </div>
           </div>
           <div class="card-link-wrapper">
-            <a href="#myModal" class="card-link" data-bs-toggle="modal" data-bs-target="#myModal">Detil Produk</a>
+            <a href="#modal{{$rentals->id}}" class="card-link" data-bs-toggle="modal" data-bs-target="#modal{{$rentals->id}}">Detil Produk</a>
           </div>
         </li>
         <!-- END CARD -->
@@ -132,14 +132,16 @@
   </div>
 <!-- end content -->
 
-<!-- The Modal -->
-<div class="modal" id="myModal">
+<!-- The Modals -->
+@foreach ($rental as $rentals)
+<div class="modal fade" id="modal{{$rentals->id}}" tabindex="-1" aria-labelledby="modalLabel{{$rentals->id}}" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
 
       <!-- Modal Header -->
       <div class="modal-header">
-        <h4 class="modal-title">Data Produk Sewa <br> Pelanggan : {{$rentals->pelanggan->nama_pelanggan}}</h4>
+        <h4 class="modal-title" id="modalLabel{{$rentals->id}}">Data Produk Sewa <br> Pelanggan : {{$rentals->pelanggan->nama_pelanggan}}</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
 
       <!-- Modal body -->
@@ -172,5 +174,20 @@
     </div>
   </div>
 </div>
+@endforeach
 
 @endsection
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+</script>
+<script src="https://kit.fontawesome.com/02c07b0853.js" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLR0cJY4L14WdM/NEbLB5EMn6xczsS8q4p2j+HlT9H" crossorigin="anonymous"></script>
+<script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap5.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        $('#myTable').DataTable();
+    });
+</script>

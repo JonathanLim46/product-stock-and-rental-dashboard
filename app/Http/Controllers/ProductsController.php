@@ -43,6 +43,27 @@ class ProductsController extends Controller
         return to_route('produk.index')->with('success', "Produk '$data' berhasil ditambahkan");
     }
 
+    public function update(Request $request, Products $product)
+    {
+        $request->validate([
+            'nama_produk' => 'required',
+            'deskripsi_produk' => 'required',
+            'stok_produk' => 'required',
+            'harga_produk' => 'required',
+            'category_id' => 'required'
+        ]);
+
+        $product->update([
+            'nama_produk' => $request->nama_produk,
+            'deskripsi_produk' => $request->deskripsi_produk,
+            'stok_produk' => $request->stok_produk,
+            'harga_produk' => $request->harga_produk,
+            'category_id' => $request->category_id,
+        ]);
+
+        return redirect()->route('produk.index')->with('success', "Produk $request->nama_produk berhasil diupdate");
+    }
+
     public function form(){
         $category = Category::all();
         return view('input_view.inputProduk',[

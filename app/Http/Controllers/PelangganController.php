@@ -30,7 +30,14 @@ class PelangganController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function create()
+    {
+        return view('input_view.inputPelanggan', [
+            'title' => 'Data Pelanggan',
+        ]);
+    }
+
+    public function store(Request $request)
     {
         $request->validate([
             'nama_pelanggan' => 'required',
@@ -39,11 +46,11 @@ class PelangganController extends Controller
         ]);
 
         $data = $request->nama_pelanggan;
-        $cekData = Pelanggan::where('nama_pelanggan',$data)->value('id');
+        $cekData = Pelanggan::where('nama_pelanggan', $data)->value('id');
 
-        if($cekData){
-            return back()->with('error',"Data Pelanggan '$data' sudah terdaftar");
-        }else{
+        if ($cekData) {
+            return back()->with('error', "Data Pelanggan '$data' sudah terdaftar");
+        } else {
             Pelanggan::create([
                 'nama_pelanggan' => $request->nama_pelanggan,
                 'alamat_pelanggan' => $request->alamat_pelanggan,
@@ -51,56 +58,31 @@ class PelangganController extends Controller
             ]);
         }
 
-        return to_route('pelanggan.index')->with('success', "Data Pelanggan '$data' berhasil ditambahkan");
+        return redirect()->route('pelanggan.index')->with('success', "Data Pelanggan $data berhasil ditambahkan");
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StorePelangganRequest  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function form()
-    {
-        return view('input_view.inputPelanggan',[
-            'title' => 'Pelanggan'
-        ]);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Pelanggan  $pelanggan
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Pelanggan $pelanggan)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Pelanggan  $pelanggan
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Pelanggan $pelanggan){
         return view('input_view.inputPelanggan',[
-            'title' => 'Pelanggan',
+            'title' => 'Tambah Produk',
             'pelanggan' => $pelanggan
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdatePelangganRequest  $request
-     * @param  \App\Models\Pelanggan  $pelanggan
-     * @return \Illuminate\Http\Response
-     */
-    public function update(UpdatePelangganRequest $request, Pelanggan $pelanggan)
+    public function update(Request $request, Pelanggan $pelanggan)
     {
-        //
+        $request->validate([
+            'nama_pelanggan' => 'required',
+            'alamat_pelanggan' => 'required',
+            'nomor_pelanggan' => 'required'
+        ]);
+
+        $pelanggan->update([
+            'nama_pelanggan' => $request->nama_pelanggan,
+            'alamat_pelanggan' => $request->alamat_pelanggan,
+            'nomor_pelanggan' => $request->nomor_pelanggan
+        ]);
+
+        return redirect()->route('pelanggan.index')->with('success', "Pelanggan $request->nama_pelanggan berhasil diupdate");
     }
 
     /**
@@ -114,6 +96,6 @@ class PelangganController extends Controller
         $pelangganName = $pelanggan->nama_pelanggan;
         $pelanggan->delete();
 
-        return to_route('pelanggan.index')->with('deleteSuccess', "Data Pelanggan : '$pelangganName' Berhasil di Delete ");
+        return to_route('pelanggan.index')->with('deleteSuccess', "Data Pelanggan : $pelangganName Berhasil di Delete ");
     }
 }

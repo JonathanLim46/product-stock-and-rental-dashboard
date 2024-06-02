@@ -7,7 +7,7 @@
   
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h4>Data Sewa | Data Terbaru Saat : {{ date('Y-m-d H:i:s') }}</h4>
-        <a href="{{route('rental.form')}}"><button class="btn btn-success btn-block"><b>+ NEW DATA</b></button></a>
+        <a href="{{ route('rental.form') }}"><button class="btn btn-success btn-block"><b>+ NEW DATA</b></button></a>
     </div>
 
     {{-- success --}}
@@ -71,12 +71,14 @@
                         @endphp
                     </td>
                     <td>
-                        <button class="btn btn-warning btn-sm">Edit</button>
+                        <a href="{{ route('rental.edit', $rental->id) }}">
+                            <button class="btn btn-warning btn-sm">Edit</button>
+                        </a>
                         <form method="post" action="{{ route('rental.delete', ['rental' => $rental]) }}">
                             @csrf
                             @method('delete')
                             <button type="submit" class="btn btn-danger btn-sm mt-2">Delete</button>
-                        </form>
+                        </form>  
                     </td>
                 </tr>
                 @endforeach

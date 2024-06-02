@@ -20,8 +20,14 @@
 
     <div class="container rounded mt-3 p-4 shadow-lg" style="background-color: #ffffff;">
         <!-- Form Input -->
-        <form method="POST" action="{{ route('rental.store') }}">
+        <form method="POST" action="{{ isset($rentals) ? route('rental.update', $rentals->id) : route('rental.store') }}">
             @csrf
+            @if (isset($rentals))
+                @method('PUT')
+            @else
+                @method('POST')
+            @endif
+
             <div class="mb-3">
                 <label for="nama_pelanggan" class="form-label">Nama Pelanggan</label>
                 <select class="form-select" id="nama_pelanggan" name="nama_pelanggan" required>
@@ -29,31 +35,34 @@
                     @foreach($pelanggans as $pelanggan)
                         <option value="{{ $pelanggan->id }}" 
                                 data-address="{{ $pelanggan->alamat_pelanggan }}" 
-                                data-phone="{{ $pelanggan->nomor_pelanggan }}">{{ $pelanggan->nama_pelanggan }}</option>
+                                data-phone="{{ $pelanggan->nomor_pelanggan }}"
+                                {{ isset($rentals) && $rentals->id_pelanggan == $pelanggan->id ? 'selected' : '' }}>
+                                {{ $pelanggan->nama_pelanggan }}
+                        </option>
                     @endforeach
                 </select>
             </div>
             <div class="mb-3">
                 <label for="alamat_pelanggan" class="form-label">Alamat Pelanggan</label>
-                <input type="text" class="form-control" id="alamat_pelanggan" name="alamat_pelanggan" readonly="readonly" required>
+                <input type="text" class="form-control" id="alamat_pelanggan" name="alamat_pelanggan" readonly="readonly" value="{{ isset($rentals) ? $rentals->pelanggan->alamat_pelanggan : '' }}" required>
             </div>
             <div class="mb-3">
                 <label for="nomor_pelanggan" class="form-label">Nomor Pelanggan</label>
-                <input type="text" class="form-control" id="nomor_pelanggan" name="nomor_pelanggan" readonly="readonly" required>
+                <input type="text" class="form-control" id="nomor_pelanggan" name="nomor_pelanggan" readonly="readonly" value="{{ isset($rentals) ? $rentals->pelanggan->nomor_pelanggan : '' }}" required>
             </div>
             <div class="mb-3">
                 <label for="rental_awal" class="form-label">Rental Awal</label>
-                <input type="date" class="form-control" id="rental_awal" name="rental_awal" required>
+                <input type="date" class="form-control" id="rental_awal" name="rental_awal" value="{{ isset($rentals) ? $rentals->rental_awal : '' }}" required>
             </div>
             <div class="mb-3">
                 <label for="rental_akhir" class="form-label">Rental Akhir</label>
-                <input type="date" class="form-control" id="rental_akhir" name="rental_akhir" required>
+                <input type="date" class="form-control" id="rental_akhir" name="rental_akhir" value="{{ isset($rentals) ? $rentals->rental_akhir : '' }}" required>
             </div>
             <div class="mb-3">
                 <label for="status_rental" class="form-label">Status Rental</label>
                 <select class="form-select" id="status_rental" name="status_rental" required>
-                    <option value="1">MASA SEWA</option>
-                    <option value="0">TIDAK MASA SEWA</option>
+                    <option value="1" {{ isset($rentals) && $rentals->status_rental ? 'selected' : '' }}>MASA SEWA</option>
+                    <option value="0" {{ isset($rentals) && !$rentals->status_rental ? 'selected' : '' }}>TIDAK MASA SEWA</option>
                 </select>
             </div>
             <div class="mb-3">
@@ -61,13 +70,13 @@
                 <select class="form-select" id="product_id" name="product_id" required>
                     <option value="" disabled selected>Pilih Produk</option>
                     @foreach($product as $products)
-                        <option value="{{ $products->id }}">{{$products->nama_produk}}</option>
+                        <option value="{{ $products->id }}" {{ isset($rentals) && $rentals->detil_rental->first()->produk_id == $products->id ? 'selected' : '' }}>{{$products->nama_produk}}</option>
                     @endforeach
                 </select>
             </div>
             <div class="mb-3">
                 <label for="total_barang" class="form-label">Kuantitas Barang</label>
-                <input type="number" class="form-control" id="total_barang" name="total_barang" required>
+                <input type="number" class="form-control" id="total_barang" name="total_barang" value="{{ isset($rentals) ? $rentals->detil_rental->first()->total_barang : '' }}" required>
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
@@ -91,7 +100,7 @@
         const rentalAkhirInput = document.getElementById('rental_akhir');
         const statusRentalSelect = document.getElementById('status_rental');
 
-        // Preload all rental data
+        // Preload all rental data if editing
         const rentals = @json($rentals);
 
         namaPelangganSelect.addEventListener('change', function () {
@@ -100,19 +109,24 @@
             alamatPelangganInput.value = selectedOption.getAttribute('data-address') || '';
             nomorPelangganInput.value = selectedOption.getAttribute('data-phone') || '';
 
-            const rentalData = rentals.find(rental => rental.id_pelanggan == selectedOption.value);
+            if (rentals) {
+                const rentalData = rentals.detil_rental.find(detil => detil.rental_id == selectedOption.value);
 
-            if (rentalData) {
-                rentalAwalInput.value = rentalData.rental_awal || '';
-                rentalAkhirInput.value = rentalData.rental_akhir || '';
-                statusRentalSelect.value = rentalData.status_rental ? '1' : '0';
-            } else {
-                rentalAwalInput.value = '';
-                rentalAkhirInput.value = '';
-                statusRentalSelect.value = '1';
+                if (rentalData) {
+                    rentalAwalInput.value = rentalData.rental_awal || '';
+                    rentalAkhirInput.value = rentalData.rental_akhir || '';
+                    statusRentalSelect.value = rentalData.status_rental ? '1' : '0';
+                } else {
+                    rentalAwalInput.value = '';
+                    rentalAkhirInput.value = '';
+                    statusRentalSelect.value = '';
+                }
             }
         });
+
+
+        if (rentals) {
+            namaPelangganSelect.dispatchEvent(new Event('change'));
+        }
     });
 </script>
-
-</html>

@@ -43,6 +43,8 @@ Route::post('dashboard/produk/savedata',[ProductsController::class,'create'])->m
 
 Route::delete('/dashboard/produk/{product}/delete',[ProductsController::class,'destroy'])->middleware('auth')->name('produk.delete');
 
+Route::put('/dashboard/produk/{product}/update', [ProductsController::class, 'update'])->middleware('auth')->name('produk.update');
+
 
 // END PRODUK
 
@@ -52,11 +54,14 @@ Route::get('/dashboard/pelanggan',[PelangganController::class,'index'])->middlew
 
 Route::delete('/dashboard/pelanggan/{pelanggan}/delete',[PelangganController::class,'destroy'])->middleware('auth')->name('pelanggan.delete');
 
-Route::get('/dashboard/pelanggan/form',[PelangganController::class,'form'])->middleware('auth')->name('pelanggan.form');
+Route::get('/dashboard/pelanggan/form',[PelangganController::class,'create'])->middleware('auth')->name('pelanggan.form');
 
-Route::post('/dashboard/pelanggan/savedata',[PelangganController::class,'create'])->middleware('auth')->name('pelanggan.savedata');
+Route::post('/dashboard/pelanggan/savedata',[PelangganController::class,'store'])->middleware('auth')->name('pelanggan.savedata');
 
 Route::get('/dashboard/pelanggan/{pelanggan}/edit',[PelangganController::class,'edit'])->middleware('auth')->name('pelanggan.edit');
+
+Route::put('/dashboard/pelanggan/{pelanggan}/update', [PelangganController::class, 'update'])->middleware('auth')->name('pelanggan.update');
+
 
 // END PELANGGAN
 
@@ -85,6 +90,10 @@ Route::get('/dashboard/rental/form',[RentalController::class,'form'])->middlewar
 Route::post('/dashboard/rental/savedata',[RentalController::class,'store'])->middleware('auth')->name('rental.store');
 
 Route::delete('/dashboard/rental/{rental}/delete',[RentalController::class,'destroy'])->middleware('auth')->name('rental.delete');
+
+Route::get('/dashboard/rental/{rental}/edit', [RentalController::class, 'edit'])->name('rental.edit');
+
+Route::put('/dashboard/rental/{rental}', [RentalController::class, 'update'])->middleware('auth')->name('rental.update');
 
 // END RENTAL
 

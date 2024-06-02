@@ -56,9 +56,6 @@
                             <div>{{ $message }}</div>
                         @enderror
                     </div>
-                    <div class="mb-2">
-                        <a href="" class="font-bold text-sm">Forgot Password ?</a>
-                    </div>
                     <div class="flex justify-center mt-7">
                         <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full w-4/5 2xl:w-2/5">
                             Submit

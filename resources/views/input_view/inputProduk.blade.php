@@ -20,7 +20,7 @@
 
     <div class="container rounded mt-3 p-4 shadow-lg" style="background-color: #ffffff;">
         <!-- Form Input -->
-        <form method="POST" action="{{ isset($product) ? route('produk.edit',$product->id) : route('produk.save') }}">
+        <form method="POST" action="{{ isset($product) ? route('produk.update',$product->id) : route('produk.save') }}">
             @csrf
             @if (isset($product))
                 @method('PUT')
