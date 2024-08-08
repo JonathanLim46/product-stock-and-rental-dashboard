@@ -25,3 +25,42 @@ body,html{
 /* .input:focus::outline-none{
 
 } */
+
+@media (min-width: 1200px) {
+    #kontencard{
+        margin-top:-70px;
+    }
+
+    .isi-konten{
+        margin-top:1rem;
+    }
+}
+
+@media (min-width: 1400px) {
+    #kontencard{
+        margin-top:-100px;
+    }
+}
+
+@media (max-width: 991.98px) {
+    #kontencard{
+        width:50vw;
+        height:60vh;
+    }
+
+    .isi-konten{
+        margin-top:5rem;
+    }
+}
+
+@media (max-width: 575.98px) {
+    #kontencard{
+        width:80vw;
+        height:75vh;
+        margin-top:-100px;
+    }
+
+    .isi-konten{
+        margin-top:1rem;
+    }
+}

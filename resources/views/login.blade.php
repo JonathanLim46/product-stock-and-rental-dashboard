@@ -3,9 +3,9 @@
 
 @section('content')
        <!-- center background -->
-       <div class="flex bg-slate-400 w-full h-3/6 border">
+       <div class="flex bg-slate-400 w-full h-3/6 border" id="center-content">
         <!-- bg form -->
-        <div class="konten bg-slate-100 w-1/4 m-auto md:-mt-20 rounded-3xl h-auto 2xl:h-[632px] 2xl:-mt-12 border-solid border-2 border-slate-600">
+        <div class="konten bg-slate-100 w-1/4 m-auto md:-mt-20 rounded-3xl h-auto 2xl:h-[632px] 2xl:-mt-12 border-solid border-2 border-slate-600" id="kontencard">
             <!-- isi konten -->
             <div class="isi-konten px-4 py-10 2xl:py-32">
                <div class="logo flex m-auto max-w-12 bg-green-400  h-12 rounded">

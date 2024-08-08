@@ -28,7 +28,7 @@ class AdminController extends Controller
         }else{
             User::create([
                 'username' => $request->username,
-                'password' => $request->password
+                'password' => bcrypt($request->password)
             ]);
         }
         return to_route('admin.index')->with('success',"Data '$data' berhasil ditambahkan");

@@ -6,7 +6,7 @@
 <main class="flex-grow-1 p-4">
   
     <div class="d-flex justify-content-between align-items-center mb-3">
-        <h4>Data Sewa | Data Terbaru Saat : {{ date('Y-m-d H:i:s') }}</h4>
+        <h4>Data Sewa</h4>
         <a href="{{ route('rental.form') }}"><button class="btn btn-success btn-block"><b>+ NEW DATA</b></button></a>
     </div>
 
